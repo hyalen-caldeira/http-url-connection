@@ -29,6 +29,7 @@ public class SapApplication {
         Map<String, String> parameters = new HashMap<>();
         parameters.put("page", "5");
 
+        // Get first page
         String json = sap.getRequest(GET_REQUEST, BASE_URI_STRING, parameters);
 
         // Convert JSON to object
@@ -54,11 +55,16 @@ public class SapApplication {
             parameters.clear();
         }
 
-        // Same stream's examples
+        // Some stream's examples
+        // List of persons whose name starts with 'H'
         List<Person> list = persons.stream().filter(p -> p.getFirstName().startsWith("H")).collect(Collectors.toList());
+        // Average age
         Double averageAge = persons.stream().collect(Collectors.averagingInt(p -> p.getAge()));
+        // Several statistics like min, max, average and count
         IntSummaryStatistics ageSummary = persons.stream().collect(Collectors.summarizingInt(p -> p.getAge()));
+        // The oldest person
         persons.stream().reduce((p1, p2) -> p1.getAge() > p2.getAge() ? p1 : p2).ifPresent(System.out::println);
+        // Making a phrase with all persons
         String phrase = persons
             .stream()
             .filter(p -> p.getAge() > 18)
