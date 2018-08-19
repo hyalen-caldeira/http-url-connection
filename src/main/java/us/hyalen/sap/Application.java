@@ -2,7 +2,7 @@ package us.hyalen.sap;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import us.hyalen.sap.assessment.Person;
+import us.hyalen.sap.resource.PersonResource;
 
 import javax.validation.constraints.NotNull;
 import java.io.BufferedReader;
@@ -14,7 +14,7 @@ import java.net.URLEncoder;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class SapApplication {
+public class Application {
     private static final String USER_AGENT = "Mozilla/5.0";
     private static final String BASE_URI_STRING = "http://localhost:8080/sap";
     private static final String GET_REQUEST = "GET";
@@ -23,23 +23,22 @@ public class SapApplication {
     private HttpURLConnection connection;
 
 	public static void main(String[] args) throws Exception {
-        SapApplication sap = new SapApplication();
+        Application sap = new Application();
 
-        // Set initial parameters
-        Map<String, String> parameters = new HashMap<>();
-        parameters.put("page", "5");
-
-        // Get first page
-        String json = sap.getRequest(GET_REQUEST, BASE_URI_STRING, parameters);
-
-        // Convert JSON to object
+        // Get JSON builder
         GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.create();
 
-        Person person = gson.fromJson(json, Person.class);
-
         // List of persons
-        List<Person> persons = new ArrayList<>();
+        List<PersonResource> persons = new ArrayList<>();
+
+        // Set initial parameters
+        Map<String, String> parameters = new HashMap<>();
+
+        // Get first page
+        parameters.put("page", "5");
+        String json = sap.getRequest(GET_REQUEST, BASE_URI_STRING, parameters);
+        PersonResource person = gson.fromJson(json, PersonResource.class);
         persons.add(person);
 
         // Repeat while number of pages is greater than 0
@@ -47,17 +46,15 @@ public class SapApplication {
             Integer page = person.getNumberOfPages();
 
             parameters.put("page", page.toString());
-
             json = sap.getRequest(GET_REQUEST, BASE_URI_STRING, parameters);
-            person = gson.fromJson(json, Person.class);
+            person = gson.fromJson(json, PersonResource.class);
             persons.add(person);
 
             parameters.clear();
         }
 
-        // Some stream's examples
         // List of persons whose name starts with 'H'
-        List<Person> list = persons.stream().filter(p -> p.getFirstName().startsWith("H")).collect(Collectors.toList());
+        List<PersonResource> list = persons.stream().filter(p -> p.getFirstName().startsWith("H")).collect(Collectors.toList());
         // Average age
         Double averageAge = persons.stream().collect(Collectors.averagingInt(p -> p.getAge()));
         // Several statistics like min, max, average and count

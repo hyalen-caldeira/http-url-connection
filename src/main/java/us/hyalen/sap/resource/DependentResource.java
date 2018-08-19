@@ -1,9 +1,9 @@
-package us.hyalen.sap.assessment;
+package us.hyalen.sap.resource;
 
 import lombok.Data;
 
 @Data
-public class Dependent {
+public class DependentResource {
     private String firstName;
     private String lastName;
     private String relationship;

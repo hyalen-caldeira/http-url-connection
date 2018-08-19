@@ -1,15 +1,15 @@
-package us.hyalen.sap.assessment;
+package us.hyalen.sap.resource;
 
 import lombok.Data;
 
 import java.util.List;
 
 @Data
-public class Person {
+public class PersonResource {
     private String firstName;
     private String lastName;
     private Integer age;
-    private List<Dependent> dependents;
+    private List<DependentResource> dependents;
     private String[] phones;
     private Integer numberOfPages;
 }
