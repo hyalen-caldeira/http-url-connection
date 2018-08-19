@@ -71,7 +71,7 @@ public class SapApplication {
             .map(p -> p.getFirstName() + " " + p.getLastName())
             .collect(
                 Collectors
-                    .joining("and", "In USA", " are of legal age."));
+                    .joining(" and ", "In USA ", " are of legal age."));
     }
 
 	private String getRequest(String method, String baseUri, Map<String, String> parameters) throws Exception {

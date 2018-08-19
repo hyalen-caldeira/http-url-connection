@@ -9,7 +9,7 @@ public class Person {
     private String firstName;
     private String lastName;
     private Integer age;
-    private List<Dependent> dependentsList;
+    private List<Dependent> dependents;
     private String[] phones;
     private Integer numberOfPages;
 }
