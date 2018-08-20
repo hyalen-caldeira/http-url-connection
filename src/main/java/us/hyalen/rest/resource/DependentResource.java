@@ -1,4 +1,4 @@
-package us.hyalen.sap.resource;
+package us.hyalen.rest.resource;
 
 import lombok.Data;
 

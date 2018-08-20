@@ -1,8 +1,8 @@
-package us.hyalen.sap;
+package us.hyalen.rest;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import us.hyalen.sap.resource.PersonResource;
+import us.hyalen.rest.resource.PersonResource;
 
 import javax.validation.constraints.NotNull;
 import java.io.BufferedReader;
@@ -16,14 +16,14 @@ import java.util.stream.Collectors;
 
 public class Application {
     private static final String USER_AGENT = "Mozilla/5.0";
-    private static final String BASE_URI_STRING = "http://localhost:8080/sap";
+    private static final String BASE_URI_STRING = "http://localhost:8080/rest";
     private static final String GET_REQUEST = "GET";
     private static final int CONNECTION_TIMEOUT = 10000;
     private static final int READ_TIMEOUT = 10000;
     private HttpURLConnection connection;
 
 	public static void main(String[] args) throws Exception {
-        Application sap = new Application();
+        Application app = new Application();
 
         // Get JSON builder
         GsonBuilder builder = new GsonBuilder();
@@ -37,7 +37,7 @@ public class Application {
 
         // Get first page
         parameters.put("page", "5");
-        String json = sap.getRequest(GET_REQUEST, BASE_URI_STRING, parameters);
+        String json = app.getRequest(GET_REQUEST, BASE_URI_STRING, parameters);
         PersonResource person = gson.fromJson(json, PersonResource.class);
         persons.add(person);
 
@@ -46,7 +46,7 @@ public class Application {
             Integer page = person.getNumberOfPages();
 
             parameters.put("page", page.toString());
-            json = sap.getRequest(GET_REQUEST, BASE_URI_STRING, parameters);
+            json = app.getRequest(GET_REQUEST, BASE_URI_STRING, parameters);
             person = gson.fromJson(json, PersonResource.class);
             persons.add(person);
 
